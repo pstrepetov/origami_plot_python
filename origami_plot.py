@@ -34,6 +34,7 @@ def origami_plot(
     vertex_names_params: dict = {"fontsize":10, "color":"black",
                     "ha":"center", "va":"center"},
     vertex_params: dict = {"marker":"o", "alpha":0.9, "linewidth":1.0},
+    vertex_names_position: tuple[float] = (1.05, 0.05),
     star_labels: list[str] = None,
     star_params: dict = {},
     legend_params: dict = {"loc":"best", "fontsize":10, "frameon":True},
@@ -75,6 +76,11 @@ def origami_plot(
             Styling parameters for the vertex name labels. Default is {"fontsize": 10, "color": "black", "ha": "center", "va": "center"}.
         vertex_params (dict, optional): 
             Styling parameters for the vertex markers. Default is {"marker": "o", "alpha": 0.9, "linewidth": 1.0}.
+        vertex_names_position (tuple[float], optional):
+            A tuple containing two parameters responsible for vertex name positioning. 
+            - The first parameter (multiplicative factor) scales the radial distance of the vertex names from the center.
+            - The second parameter (additive offset) adjusts the vertical position of the vertex names.
+            Defaults to (1.05, 0.05).
         star_labels (list[str], optional): 
             Labels for each star in the legend. Must match the number of stars. If not provided, default labels are generated.
         star_params (dict, optional): 
@@ -217,9 +223,9 @@ def origami_plot(
     # Add vertex names
     if vertex_names is not None:
         for i, name in enumerate(vertex_names):
-            x_label = max(spider_net_radii) * np.cos(angles[::2][i]) * 1.01 # Offset slightly outward
-            y_label = max(spider_net_radii) * np.sin(angles[::2][i]) * 1.01 # Offset slightly outward
-            y_label += 0.05 * np.sign(y_label - 1e-6) # shift vertex names a bit
+            x_label = max(spider_net_radii) * np.cos(angles[::2][i]) * vertex_names_position[0] # Offset slightly outward
+            y_label = max(spider_net_radii) * np.sin(angles[::2][i]) * vertex_names_position[0] # Offset slightly outward
+            y_label += vertex_names_position[1] * np.sign(y_label - 1e-6) # shift vertex names a bit
             ax.text(x_label, y_label, name, **vertex_names_params)
     
     # Add legend
