@@ -165,4 +165,3 @@ def origami_plot(outer_radii_list, inner_radius=0.1,
     ax.axis('off')  # Hide axes
     
     plt.show()
-)
