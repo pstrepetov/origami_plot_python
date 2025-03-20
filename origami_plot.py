@@ -18,7 +18,7 @@ def calculate_polygon_area(x, y):
     y = np.array(y)
     return 0.5 * abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))
 
-def plot_multiple_stars_with_spider_net(outer_radii_list, inner_radius=0.1, 
+def origami_plot(outer_radii_list, inner_radius=0.1, 
                                          color_list=None, linewidth=0.5, linestyle_list=None,
                                          fill=True, fill_color_list=None, alpha_list=None,
                                          spider_net_radii=None, spider_net_color='gray', spider_net_alpha=0.3,
