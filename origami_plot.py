@@ -141,13 +141,13 @@ def origami_plot(
             y_polygon = radius * np.sin(angles)
             ax.plot(np.append(x_polygon, x_polygon[0]), np.append(y_polygon, y_polygon[0]), **spider_net_params)
         
-        # Add radial lines from the center to the vertices
+        # Add radial lines from the center to the outer vertices
         for angle in angles[::2]:
             ax.plot([0, max(spider_net_radii) * np.cos(angle)],
                     [0, max(spider_net_radii) * np.sin(angle)],
                     **spider_net_params)
         
-        # Add radial lines from the center to the middle of the spider net edges
+        # Add radial lines from the center to the concave vertices
         middle_lines_params = spider_net_params.copy()
         middle_lines_params["linestyle"] = "-." if middle_lines_params.get("linestyle") != "-." else "--"
         for angle in angles[1::2]:
