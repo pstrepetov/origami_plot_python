@@ -137,8 +137,8 @@ def origami_plot(
     fig, ax = plt.subplots(figsize=figsize)
     if spider_net_radii is not None:
         for radius in spider_net_radii:
-            x_polygon = radius * np.cos(angles[::2])
-            y_polygon = radius * np.sin(angles[::2])
+            x_polygon = radius * np.cos(angles)
+            y_polygon = radius * np.sin(angles)
             ax.plot(np.append(x_polygon, x_polygon[0]), np.append(y_polygon, y_polygon[0]), **spider_net_params)
         
         # Add radial lines from the center to the vertices
@@ -146,21 +146,28 @@ def origami_plot(
             ax.plot([0, max(spider_net_radii) * np.cos(angle)],
                     [0, max(spider_net_radii) * np.sin(angle)],
                     **spider_net_params)
-
-        # Add radial lines from the center to the middle of the spider net edges
-        radial_lines_params = spider_net_params.copy()
-        radial_lines_params["linestyle"] = "--" if radial_lines_params.get("linestyle") != "--" else ":"
         
+        # Add radial lines from the center to the middle of the spider net edges
+        middle_lines_params = spider_net_params.copy()
+        middle_lines_params["linestyle"] = "-." if middle_lines_params.get("linestyle") != "-." else "--"
         for angle in angles[1::2]:
-            ax.plot([0, max(spider_net_radii) * np.cos(angle)*np.cos(angles[1])],
-                    [0, max(spider_net_radii) * np.sin(angle)*np.cos(angles[1])],
-                    **radial_lines_params)
+            ax.plot([0, max(spider_net_radii) * np.cos(angle)],
+                    [0, max(spider_net_radii) * np.sin(angle)],
+                    **middle_lines_params)
+            
+        # draw dots for vertex names
+        dots_params = spider_net_params.copy()
+        marker = middle_lines_params.get("marker")
+        dots_params["marker"] = "s" if marker is None else marker
+        ax.scatter([max(spider_net_radii) * np.cos(angle) for angle in angles[::2]],
+                    [max(spider_net_radii) * np.sin(angle) for angle in angles[::2]],
+                    **dots_params)
         
         # Add spider net radius labels between 1st and 2nd radial lines
         label_angle = angles[1]  # Angle for the radial line where labels will be placed
         for radius in spider_net_radii[:-1]:
-            label_x = radius * np.cos(label_angle) ** 2
-            label_y = radius * np.sin(label_angle) * np.cos(label_angle)
+            label_x = radius * np.cos(label_angle)
+            label_y = radius * np.sin(label_angle)
             ax.text(label_x, label_y, f"{radius:.1f}", **spider_net_text_params)
     
     # Plot each star and calculate its area
@@ -187,9 +194,9 @@ def origami_plot(
         
         # Create label for the legend
         if star_labels:
-            label = f"{star_labels[i]} (Area: {area:.4f})"
+            label = f"{star_labels[i]} (Area: {area:.2f})"
         else:
-            label = f"Star {i+1} (Area: {area:.4f})"
+            label = f"Star {i+1} (Area: {area:.2f})"
         
         # Plot the star
         if fill:
