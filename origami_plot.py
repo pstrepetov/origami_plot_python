@@ -236,8 +236,12 @@ def origami_plot(
                 cur_x = cur_star.exterior.xy[0][i*2]
                 cur_y = cur_star.exterior.xy[1][i*2]
 
-                v1_x = cur_star.exterior.xy[0][i*2 - 1]
-                v1_y = cur_star.exterior.xy[1][i*2 - 1]
+                if i == 0: #in this case index -1 points to the same vertex as at index 0
+                    v1_x = cur_star.exterior.xy[0][-2]
+                    v1_y = cur_star.exterior.xy[1][-2]
+                else:
+                    v1_x = cur_star.exterior.xy[0][i*2-1]
+                    v1_y = cur_star.exterior.xy[1][i*2-1]
                 v2_x = cur_star.exterior.xy[0][i*2 + 1]
                 v2_y = cur_star.exterior.xy[1][i*2 + 1]
 
