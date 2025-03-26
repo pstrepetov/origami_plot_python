@@ -5,5 +5,5 @@ Inspired by [article](https://www.sciencedirect.com/science/article/pii/S0895435
 
 Example:
 
-![example_img](example.png)
+![example_img](example_plot.png)
 
